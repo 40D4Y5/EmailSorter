@@ -2,13 +2,21 @@
 
 Then New Virsion = 0.0.2
 
-extract email list from txt files espacially from combo list 
-and sort them each in txt folder 
-if there is any issues report it please
-fixed bugs 
-never over write the result file 
-check the correct path 
-extract the emails from any text file 
-sort them to text file 
-fast
+- Sort Email from Email list 
+
+- Write each email in txt file by it is company name For Ex. gmail.txt
+
+# New Features 
+
+- Fixed bugs 
+
+- Never over write the result file 
+
+- Check the correct path 
+
+- Sort Emails in Secounds 
+
+- Extract emails from text files 
+
+
 ![EmailSortet](https://i.ibb.co/5MvPk89/Github3.jpg)
