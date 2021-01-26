@@ -22,10 +22,11 @@ class email_sorter:
         self.email = []
         self.email_domains = {}
         self.domains = []
+        banner()
 
     def main(self):
         global con
-        banner()
+
         self.menue()
         if self.choice == '0':
             fileN = input(
@@ -34,13 +35,14 @@ class email_sorter:
             filename1 = self.readFile(fileN)
             self.email = self.Loademails(filename1)
             self.sortEmails(self.email)
-            print(self.email_domains)
+            print(
+                f'{green_box} {self.email_domains} Uuique Domains: {len(self.email_domains)}')
             print('\n')
             print(info_box+" Sorted in" + "--- %s seconds ---" %
                   (time.time() - start_time))
             print('\n')
             con.close()
-            self.menue()
+            self.main()
 
         elif self.choice == '1':
             fileN = input(
@@ -51,39 +53,45 @@ class email_sorter:
             self.sqle_creat()
             with concurrent.futures.ThreadPoolExecutor()as executor:
                 executor.map(self.data_store, self.email)
-            print(self.email_domains)
+            print(
+                f'{green_box} {self.email_domains} Uuique Domains: {len(self.email_domains)}')
             print('\n')
             print(info_box+" Added to Database in in" +
                   "--- %s seconds ---" % (time.time() - start_time))
             print('\n')
-            self.menue()
+            self.main()
 
         elif self.choice == '2':
             start_time = time.time()
             self.sqle_creat()
             e = self.Extract_emails_db()
             self.sortEmails(e)
-            print(self.email_domains)
+            print(
+                f'{green_box} {self.email_domains} Uuique Domains: {len(self.email_domains)}')
             print('\n')
             print(info_box+" Sorted in" + "--- %s seconds ---" %
                   (time.time() - start_time))
             print('\n')
             con.close()
-            self.menue()
+            self.main()
 
         elif self.choice == '3':
             start_time = time.time()
             e = self.query_select()
             self.sortEmails(e)
-            print(self.email_domains)
+            print(
+                f'{green_box} {self.email_domains} Uuique Domains: {len(self.email_domains)}')
             print(info_box+" Sorted in" + "--- %s seconds ---" %
                   (time.time() - start_time))
             print('\n')
             con.close()
-            self.menue()
+            self.main()
 
-        elif self.choice == '5':
+        elif self.choice == '6':
             exit()
+
+        else:
+            self.main()
 
         # fileN = input(info_box + " Enter name with file extention format: ")
         # start_time = time.time()
@@ -118,15 +126,17 @@ class email_sorter:
     def query_select(self):
         global con
         try:
-            6
+
             query = input(
                 f"{blue_box} Enter Email Domain to extract ex. yahoo: ")
             con = sqlite3.connect('leads.db')
             cursor = con.cursor()
             cursor.execute(
-                'SELECT email FROM Emails WHERE email like "' + query+'"')
+                "SELECT email FROM Emails WHERE email LIKE \"%@" + query + "%\"")
             rows = cursor.fetchall()
             email = [row for row in rows]
+            if len(email) == 0:
+                print(f"{red_box} empty query")
             return email
         except Exception as e:
             print(e)
