@@ -71,6 +71,17 @@ class email_sorter:
             con.close()
             self.menue()
 
+        elif self.choice == '3':
+            start_time = time.time()
+            e = self.query_select()
+            self.sortEmails(e)
+            print(self.email_domains)
+            print(info_box+" Sorted in" + "--- %s seconds ---" %
+                  (time.time() - start_time))
+            print('\n')
+            con.close()
+            self.menue()
+
         elif self.choice == '5':
             exit()
 
@@ -103,6 +114,22 @@ class email_sorter:
         print(f'{info_box} 6 ------- Exit')
         self.choice = input(
             f'{blue_box} Enter your Choice number: {green_box} ')
+
+    def query_select(self):
+        global con
+        try:
+            6
+            query = input(
+                f"{blue_box} Enter Email Domain to extract ex. yahoo: ")
+            con = sqlite3.connect('leads.db')
+            cursor = con.cursor()
+            cursor.execute(
+                'SELECT email FROM Emails WHERE email like "' + query+'"')
+            rows = cursor.fetchall()
+            email = [row for row in rows]
+            return email
+        except Exception as e:
+            print(e)
 
     def sqle_creat(self):
         global con
